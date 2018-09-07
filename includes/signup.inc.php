@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
         header("Location: ../signup.php?signup=empty");
         exit();
     } else {
-        if (!preg_match("/^[a-zA-Z]*$", $first) || !preg_match("/^[a-zA-Z]*$", $last)) {
+        if (!preg_match("/^[a-zA-Z]*$/", $first) || !preg_match("/^[a-zA-Z]*$/", $last)) {
             header("Location: ../signup.php?signup=Invalid");
             exit();
         } else {
@@ -28,6 +28,12 @@ if (isset($_POST['submit'])) {
                     exit();
                 } else {
                     //HashPassword
+                    $hasheddpwd = password_hash($pwd, PASSWORD_DEFAULT);
+                    $sql = "Insert into users( user_first , user_last , user_email , user_uid , user_pwd) values('$first' , '$last' , '$email' , '$uid' , '$hasheddpwd')";
+                    mysqli_query($con, $sql);
+                    header("Location: ../signup.php?signup=Success");
+                    exit();
+
                 }
             }
         }
